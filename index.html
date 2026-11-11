@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La Mulți Ani, Mama! - 40 de Ani de Lumină</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Playfair Display (titluri) & Plus Jakarta Sans (text) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&family=Dancing+Script:wght@600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Canvas Confetti Library -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        pastel: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            200: '#bae6fd',
+                            300: '#7dd3fc',
+                            400: '#38bdf8',
+                            500: '#0284c7',
+                            600: '#0369a1',
+                            700: '#075985',
+                            800: '#0c4a6e',
+                            900: '#1e3a8a',
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['Playfair Display', 'serif'],
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        cursive: ['Dancing Script', 'cursive'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Keyframe Animations */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-15px) rotate(3deg); }
+        }
+        @keyframes pulseSlow {
+            0%, 100% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.05); opacity: 1; }
+        }
+        @keyframes sparkle {
+            0%, 100% { opacity: 0.2; transform: scale(0.8); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+        }
+        .animate-pulse-slow {
+            animation: pulseSlow 4s ease-in-out infinite;
+        }
+        .animate-sparkle {
+            animation: sparkle 3s ease-in-out infinite;
+        }
+
+        /* Ambient Floating Particles */
+        .bg-particle {
+            position: absolute;
+            pointer-events: none;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(186, 230, 253, 0.6) 0%, rgba(255, 255, 255, 0) 70%);
+        }
+
+        /* Glassmorphism Card Style */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(224, 242, 254, 0.8);
+            box-shadow: 0 10px 30px -5px rgba(2, 132, 199, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.02);
+        }
+
+        .glass-card-hover {
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .glass-card-hover:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 35px -5px rgba(2, 132, 199, 0.15);
+            border-color: rgba(125, 211, 252, 0.9);
+        }
+
+        /* Card Flip Style */
+        .flip-card {
+            perspective: 1000px;
+        }
+        .flip-card-inner {
+            transition: transform 0.8s;
+            transform-style: preserve-3d;
+        }
+        .flip-card.flipped .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+        .flip-card-front, .flip-card-back {
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+        }
+        .flip-card-back {
+            transform: rotateY(180deg);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f0f9ff;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #bae6fd;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #7dd3fc;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-b from-pastel-50 via-pastel-100/50 to-pastel-50 text-slate-800 font-sans min-h-screen relative overflow-x-hidden selection:bg-pastel-200 selection:text-pastel-900">
+
+    <!-- Floating Background Decor Elements -->
+    <div class="fixed inset-0 overflow-hidden pointer-events-none z-0">
+        <div class="bg-particle w-96 h-96 -top-20 -left-20 animate-float" style="animation-delay: 0s;"></div>
+        <div class="bg-particle w-80 h-80 top-1/3 -right-20 animate-float" style="animation-delay: 2s;"></div>
+        <div class="bg-particle w-72 h-72 bottom-10 left-10 animate-float" style="animation-delay: 4s;"></div>
+        <div class="absolute top-20 right-12 text-pastel-300 text-xl animate-sparkle" style="animation-delay: 1s;"><i class="fa-solid fa-sparkles"></i></div>
+        <div class="absolute top-1/2 left-8 text-pastel-300 text-2xl animate-sparkle" style="animation-delay: 2.5s;"><i class="fa-solid fa-heart"></i></div>
+        <div class="absolute bottom-1/3 right-16 text-pastel-200 text-3xl animate-sparkle" style="animation-delay: 1.8s;"><i class="fa-solid fa-star"></i></div>
+    </div>
+
+    <!-- Music Player Controls Widget (Top Floating) -->
+    <div class="fixed top-4 right-4 z-50">
+        <button id="musicToggleBtn" onclick="toggleAudio()" class="glass-card px-4 py-2.5 rounded-full flex items-center gap-3 text-pastel-800 text-sm font-medium hover:bg-white shadow-lg transition-all duration-300 border border-pastel-200 group">
+            <div class="w-8 h-8 rounded-full bg-pastel-200 flex items-center justify-center text-pastel-600 group-hover:scale-110 transition-transform">
+                <i id="musicIcon" class="fa-solid fa-music"></i>
+            </div>
+            <span id="musicStatus" class="hidden sm:inline">Muzică ambientală</span>
+        </button>
+        <!-- Synthesized Relaxing Ambient Audio via Web Audio API -->
+    </div>
+
+    <!-- Main Container -->
+    <main class="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16 space-y-16 sm:space-y-24">
+
+        <!-- HERO SECTION -->
+        <section class="text-center space-y-6 pt-6 sm:pt-10 relative">
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-pastel-200/60 text-pastel-800 text-xs sm:text-sm font-semibold tracking-wide uppercase shadow-sm border border-pastel-300/50 animate-pulse-slow">
+                <i class="fa-solid fa-crown text-amber-400"></i> O Aniversare Specială • 40 Ani
+            </div>
+            
+            <h1 class="font-serif text-4xl sm:text-6xl md:text-7xl font-extrabold text-pastel-900 leading-tight tracking-tight">
+                La mulți ani, <span class="bg-gradient-to-r from-pastel-600 to-pastel-800 bg-clip-text text-transparent italic font-cursive">Mama!</span>
+            </h1>
+
+            <p class="font-serif italic text-lg sm:text-2xl text-pastel-700 max-w-2xl mx-auto font-light leading-relaxed">
+                "40 de ani de lumină, căldură, bunătate și iubire necondiționată."
+            </p>
+
+            <!-- Decorative Visual Badge -->
+            <div class="pt-4 flex justify-center">
+                <div class="relative w-36 h-36 sm:w-44 sm:h-44 rounded-full p-1.5 bg-gradient-to-tr from-pastel-300 via-white to-pastel-400 shadow-xl">
+                    <div class="w-full h-full rounded-full bg-pastel-100 flex flex-col items-center justify-center border-2 border-white text-pastel-800">
+                        <span class="font-cursive text-4xl sm:text-5xl font-bold text-pastel-700">40</span>
+                        <span class="text-xs uppercase font-bold tracking-widest text-pastel-500">Ani Minunați</span>
+                        <i class="fa-solid fa-heart text-pastel-400 mt-1 text-sm animate-bounce"></i>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- EMOTIONAL LETTER SECTION -->
+        <section class="relative">
+            <div class="glass-card rounded-3xl p-6 sm:p-12 relative overflow-hidden shadow-xl border border-white">
+                <!-- Watermark Decor -->
+                <i class="fa-solid fa-quote-right absolute -bottom-10 -right-10 text-9xl text-pastel-200/40 pointer-events-none"></i>
+                
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="w-10 h-10 rounded-full bg-pastel-200 flex items-center justify-center text-pastel-700">
+                        <i class="fa-solid fa-envelope-open-text"></i>
+                    </div>
+                    <h2 class="font-serif text-2xl sm:text-3xl font-bold text-pastel-900">
+                        Scrisoare din suflet, de la fiica ta
+                    </h2>
+                </div>
+
+                <div class="space-y-5 text-slate-700 text-base sm:text-lg leading-relaxed font-sans">
+                    <p class="font-semibold text-pastel-800 text-xl font-serif">
+                        Dragă și scumptă mea mamă,
+                    </p>
+                    
+                    <p>
+                        Astăzi împlinești 40 de ani, iar eu nu am cuvinte suficiente în tot dicționarul pentru a-ți mulțumi pentru omul care ești și pentru tot ce ai făcut pentru mine. 
+                    </p>
+
+                    <div class="p-4 sm:p-6 rounded-2xl bg-pastel-100/70 border-l-4 border-pastel-500 my-4 text-pastel-900 font-medium italic">
+                        "Ești persoana care m-a scos din cele mai adânci capete ale greutății. Atunci când totul în jur părea întunecat, tu ai fost lumina mea, scutul meu și cel mai sigur adăpost."
+                    </div>
+
+                    <p>
+                        Niciodată nu ai renunțat la mine, ai luptat când eu nu mai aveam putere și m-ai învățat ce înseamnă cu adevărat demnitatea, bunătatea și iubirea de mamă. Ești și vei rămâne <strong>cea mai mare inspirație din viața mea</strong>.
+                    </p>
+
+                    <p>
+                        Nimic pe lumea asta nu mă umple de mai multă bucurie și mândrie decât clipele în care oamenii îmi spun: 
+                        <span class="text-pastel-700 font-bold underline decoration-pastel-300 underline-offset-4">"Cât de mult îi semeni mamei tale!"</span>. 
+                        Să îți semăn ție este cel mai frumos compliment pe care îl pot primi vreodată.
+                    </p>
+
+                    <p>
+                        Îți doresc ca la 40 de ani să începi cel mai frumos capitol din viața ta, plin de liniște, sănătate, zâmbete și bucurii nemărginite. Îți promit să te iubesc, să te prețuiesc și să îți fiu alături la fiecare pas.
+                    </p>
+
+                    <div class="pt-6 border-t border-pastel-200/60 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                        <div>
+                            <p class="font-cursive text-2xl text-pastel-800 font-bold">Cu toată dragostea și recunoștința,</p>
+                            <p class="text-sm text-pastel-600 font-semibold uppercase tracking-wider">Fiica ta care te adoră ❤️</p>
+                        </div>
+                        <button onclick="triggerConfetti()" class="px-5 py-2.5 bg-pastel-600 hover:bg-pastel-700 text-white font-medium rounded-xl text-sm transition shadow-md flex items-center gap-2">
+                            <i class="fa-solid fa-heart"></i> Trimite-mi o îmbrățișare!
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- REASONS / MOTIVE CARDS (INTERACTIVE FLIP CARDS) -->
+        <section class="space-y-8">
+            <div class="text-center space-y-2">
+                <span class="text-xs font-bold uppercase tracking-widest text-pastel-600">Apasă pe carduri pentru a le întoarce</span>
+                <h2 class="font-serif text-3xl sm:text-4xl font-bold text-pastel-900">
+                    De ce ești unică pentru mine
+                </h2>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                
+                <!-- Card 1 -->
+                <div class="flip-card h-64 cursor-pointer" onclick="this.classList.toggle('flipped')">
+                    <div class="flip-card-inner relative w-full h-full rounded-2xl shadow-lg">
+                        <!-- Front -->
+                        <div class="flip-card-front absolute inset-0 glass-card rounded-2xl p-6 flex flex-col items-center justify-center text-center space-y-4 border border-pastel-200">
+                            <div class="w-14 h-14 rounded-full bg-pastel-200 flex items-center justify-center text-pastel-700 text-2xl shadow-inner">
+                                <i class="fa-solid fa-shield-heart"></i>
+                            </div>
+                            <h3 class="font-serif text-xl font-bold text-pastel-900">Eroina Mea</h3>
+                            <p class="text-xs text-pastel-600">Apasă pentru a citi mesajul</p>
+                        </div>
+                        <!-- Back -->
+                        <div class="flip-card-back absolute inset-0 bg-gradient-to-br from-pastel-600 to-pastel-800 text-white rounded-2xl p-6 flex flex-col items-center justify-center text-center space-y-3 shadow-xl">
+                            <i class="fa-solid fa-quote-left text-pastel-300 text-xl"></i>
+                            <p class="text-sm leading-relaxed font-light">
+                                "Ai fost sprijinul meu în cele mai grele momente. Puterea ta de a depăși orice obstacol este modelul meu în viață."
+                            </p>
+                            <span class="text-xs text-pastel-200 font-semibold pt-2">— Mereu Alături</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="flip-card h-64 cursor-pointer" onclick="this.classList.toggle('flipped')">
+                    <div class="flip-card-inner relative w-full h-full rounded-2xl shadow-lg">
+                        <!-- Front -->
+                        <div class="flip-card-front absolute inset-0 glass-card rounded-2xl p-6 flex flex-col items-center justify-center text-center space-y-4 border border-pastel-200">
+                            <div class="w-14 h-14 rounded-full bg-pastel-200 flex items-center justify-center text-pastel-700 text-2xl shadow-inner">
+                                <i class="fa-solid fa-face-smile-beam"></i>
+                            </div>
+                            <h3 class="font-serif text-xl font-bold text-pastel-900">Lumina & Zâmbetul</h3>
+                            <p class="text-xs text-pastel-600">Apasă pentru a citi mesajul</p>
+                        </div>
+                        <!-- Back -->
+                        <div class="flip-card-back absolute inset-0 bg-gradient-to-br from-pastel-600 to-pastel-800 text-white rounded-2xl p-6 flex flex-col items-center justify-center text-center space-y-3 shadow-xl">
+                            <i class="fa-solid fa-quote-left text-pastel-300 text-xl"></i>
+                            <p class="text-sm leading-relaxed font-light">
+                                "Râsul tău și căldura din ochii tăi pot lumina cea mai întunecată zi. Îți mulțumesc pentru fiecare îmbrățișare caldă."
+                            </p>
+                            <span class="text-xs text-pastel-200 font-semibold pt-2">— Suflet Cald</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="flip-card h-64 cursor-pointer sm:col-span-2 md:col-span-1" onclick="this.classList.toggle('flipped')">
+                    <div class="flip-card-inner relative w-full h-full rounded-2xl shadow-lg">
+                        <!-- Front -->
+                        <div class="flip-card-front absolute inset-0 glass-card rounded-2xl p-6 flex flex-col items-center justify-center text-center space-y-4 border border-pastel-200">
+                            <div class="w-14 h-14 rounded-full bg-pastel-200 flex items-center justify-center text-pastel-700 text-2xl shadow-inner">
+                                <i class="fa-solid fa-gem"></i>
+                            </div>
+                            <h3 class="font-serif text-xl font-bold text-pastel-900">Mândria Mea</h3>
+                            <p class="text-xs text-pastel-600">Apasă pentru a citi mesajul</p>
+                        </div>
+                        <!-- Back -->
+                        <div class="flip-card-back absolute inset-0 bg-gradient-to-br from-pastel-600 to-pastel-800 text-white rounded-2xl p-6 flex flex-col items-center justify-center text-center space-y-3 shadow-xl">
+                            <i class="fa-solid fa-quote-left text-pastel-300 text-xl"></i>
+                            <p class="text-sm leading-relaxed font-light">
+                                "Când lumea spune că semănăm, simt cea mai mare mândrie. Să fiu măcar pe jumătate la fel de minunată ca tine e visul meu."
+                            </p>
+                            <span class="text-xs text-pastel-200 font-semibold pt-2">— Inspirația Mea</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- INTERACTIVE MEMORY GALLERY & WISHES SECTION -->
+        <section class="glass-card rounded-3xl p-6 sm:p-10 space-y-8 border border-white">
+            <div class="text-center space-y-2">
+                <h2 class="font-serif text-3xl font-bold text-pastel-900">
+                    Cele mai frumoase urări la 40 de ani
+                </h2>
+                <p class="text-slate-600 text-sm">Apasă pe oricare dintre buline pentru a descoperi un gând frumos</p>
+            </div>
+
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-4" id="wishesGrid">
+                <!-- Interactive Wish Buttons -->
+                <button onclick="showWish(1)" class="p-4 rounded-2xl bg-white/80 hover:bg-pastel-200/50 border border-pastel-200 text-pastel-800 font-semibold text-sm flex flex-col items-center gap-2 transition hover:scale-105 active:scale-95 shadow-sm">
+                    <i class="fa-solid fa-heart-pulse text-2xl text-pastel-500"></i>
+                    <span>Sănătate Curată</span>
+                </button>
+                <button onclick="showWish(2)" class="p-4 rounded-2xl bg-white/80 hover:bg-pastel-200/50 border border-pastel-200 text-pastel-800 font-semibold text-sm flex flex-col items-center gap-2 transition hover:scale-105 active:scale-95 shadow-sm">
+                    <i class="fa-solid fa-sun text-2xl text-amber-400"></i>
+                    <span>Bucurii Zilnice</span>
+                </button>
+                <button onclick="showWish(3)" class="p-4 rounded-2xl bg-white/80 hover:bg-pastel-200/50 border border-pastel-200 text-pastel-800 font-semibold text-sm flex flex-col items-center gap-2 transition hover:scale-105 active:scale-95 shadow-sm">
+                    <i class="fa-solid fa-[#0284c7] fa-feather text-2xl text-pastel-500"></i>
+                    <span>Liniște Sufletească</span>
+                </button>
+                <button onclick="showWish(4)" class="p-4 rounded-2xl bg-white/80 hover:bg-pastel-200/50 border border-pastel-200 text-pastel-800 font-semibold text-sm flex flex-col items-center gap-2 transition hover:scale-105 active:scale-95 shadow-sm">
+                    <i class="fa-solid fa-wand-magic-sparkles text-2xl text-indigo-400"></i>
+                    <span>Visuri Împlinite</span>
+                </button>
+            </div>
+
+            <!-- Wish Display Box -->
+            <div id="wishBox" class="min-h-[100px] p-6 rounded-2xl bg-pastel-100/80 border border-pastel-300 text-center flex items-center justify-center transition-all duration-300">
+                <p id="wishText" class="font-serif italic text-lg text-pastel-900">
+                    Apasă pe una dintre urările de mai sus... ✨
+                </p>
+            </div>
+        </section>
+
+        <!-- CELEBRATION / CONFETTI GRAND BUTTON -->
+        <section class="text-center space-y-6 py-6">
+            <div class="glass-card p-8 sm:p-12 rounded-3xl space-y-6 border border-pastel-200 shadow-2xl relative overflow-hidden">
+                <div class="relative z-10 space-y-4">
+                    <h2 class="font-serif text-3xl sm:text-4xl font-extrabold text-pastel-900">
+                        Să sărbătorim 40 de ani minunați!
+                    </h2>
+                    <p class="text-slate-600 max-w-md mx-auto text-sm sm:text-base">
+                        Apasă butonul de mai jos pentru a umple ecranul de artificii și bucurie dedicată ție!
+                    </p>
+                    
+                    <button onclick="triggerGrandCelebration()" class="px-8 py-4 bg-gradient-to-r from-pastel-500 via-pastel-600 to-pastel-700 hover:from-pastel-600 hover:to-pastel-800 text-white font-bold text-lg rounded-full shadow-lg hover:shadow-2xl transition duration-300 transform hover:-translate-y-1 active:translate-y-0 flex items-center gap-3 mx-auto">
+                        <i class="fa-solid fa-cake-candles text-amber-300 text-2xl"></i>
+                        <span>Sărbătorește-o pe Mama! 🎉</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer class="text-center pt-8 border-t border-pastel-200/60 text-slate-500 text-sm space-y-2">
+            <p class="font-serif italic text-base text-pastel-800">
+                "La mulți ani, mămica mea scumpă! Te iubesc mai mult decât pot exprima în cuvinte."
+            </footer>
+
+    </main>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // Interactive Wishes Array
+        const wishes = {
+            1: "Îți doresc o sănătate de fier, fericire în fiecare zi și puterea de a continua să zâmbești mereu așa cum o faci!",
+            2: "Fiecare zi din cei 40 de ani să îți aducă motive de bucurie, oameni calzi în jur și momente de neuitat!",
+            3: "Să ai parte de liniște în suflet, pace în casă și siguranța că ești cea mai iubită mamă din întreaga lume.",
+            4: "Toate visele pe care le-ai lăsat deoparte să înceapă să se îplinească acum. Merit tot ce are viața mai frumos de oferit!"
+        };
+
+        function showWish(id) {
+            const wishText = document.getElementById('wishText');
+            const wishBox = document.getElementById('wishBox');
+            
+            wishBox.classList.add('scale-95', 'opacity-50');
+            
+            setTimeout(() => {
+                wishText.textContent = `"${wishes[id]}"`;
+                wishBox.classList.remove('scale-95', 'opacity-50');
+                wishBox.classList.add('scale-100', 'opacity-100');
+            }, 150);
+
+            // Trigger a light heart confetti
+            confetti({
+                particleCount: 20,
+                spread: 60,
+                origin: { y: 0.7 },
+                colors: ['#bae6fd', '#7dd3fc', '#f472b6']
+            });
+        }
+
+        // Confetti Functions
+        function triggerConfetti() {
+            confetti({
+                particleCount: 50,
+                spread: 70,
+                origin: { y: 0.6 },
+                colors: ['#0284c7', '#7dd3fc', '#bae6fd', '#ffffff']
+            });
+        }
+
+        function triggerGrandCelebration() {
+            var duration = 4 * 1000;
+            var animationEnd = Date.now() + duration;
+            var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+
+            function randomInRange(min, max) {
+                return Math.random() * (max - min) + min;
+            }
+
+            var interval = setInterval(function() {
+                var timeLeft = animationEnd - Date.now();
+
+                if (timeLeft <= 0) {
+                    return clearInterval(interval);
+                }
+
+                var particleCount = 50 * (timeLeft / duration);
+                
+                // Confetti from two sides
+                confetti(Object.assign({}, defaults, { 
+                    particleCount, 
+                    origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 },
+                    colors: ['#0284c7', '#38bdf8', '#7dd3fc', '#bae6fd', '#f472b6', '#fbbf24'] 
+                }));
+                confetti(Object.assign({}, defaults, { 
+                    particleCount, 
+                    origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 },
+                    colors: ['#0284c7', '#38bdf8', '#7dd3fc', '#bae6fd', '#f472b6', '#fbbf24'] 
+                }));
+            }, 250);
+        }
+
+        // Web Audio API Relaxing Soft Melody Generator (Ambient Music Toggle)
+        let audioCtx = null;
+        let isPlaying = false;
+        let timerId = null;
+
+        function toggleAudio() {
+            const statusText = document.getElementById('musicStatus');
+            const musicIcon = document.getElementById('musicIcon');
+
+            if (!isPlaying) {
+                if (!audioCtx) {
+                    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                }
+                audioCtx.resume();
+                playAmbientMelody();
+                isPlaying = true;
+                statusText.textContent = "Muzică: Pornită 🎵";
+                musicIcon.className = "fa-solid fa-volume-high animate-bounce";
+            } else {
+                if (timerId) clearInterval(timerId);
+                isPlaying = false;
+                statusText.textContent = "Muzică ambientală";
+                musicIcon.className = "fa-solid fa-music";
+            }
+        }
+
+        function playAmbientMelody() {
+            // Soft pentatonic soothing notes (Frequency in Hz)
+            const notes = [261.63, 293.66, 329.63, 392.00, 440.00, 523.25];
+            
+            function playNote() {
+                if (!isPlaying) return;
+                try {
+                    let osc = audioCtx.createOscillator();
+                    let gain = audioCtx.createGain();
+                    
+                    let note = notes[Math.floor(Math.random() * notes.length)];
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(note, audioCtx.currentTime);
+                    
+                    gain.gain.setValueAtTime(0.01, audioCtx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.12, audioCtx.currentTime + 0.8);
+                    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 3.5);
+                    
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    
+                    osc.start();
+                    osc.stop(audioCtx.currentTime + 3.6);
+                } catch(e) {
+                    console.log("Audio error", e);
+                }
+            }
+
+            playNote();
+            timerId = setInterval(playNote, 1800);
+        }
+
+        // Trigger light confetti on load
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                confetti({
+                    particleCount: 30,
+                    spread: 50,
+                    origin: { y: 0.4 },
+                    colors: ['#7dd3fc', '#bae6fd', '#ffffff']
+                });
+            }, 600);
+        });
+    </script>
+</body>
+</html>
